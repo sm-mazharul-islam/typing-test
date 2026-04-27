@@ -1,148 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- aidik a chaile google font add korte parbo  -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Premium Typing Speed Test</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* aie line ta o bujte hobe  */
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
+      :root {
+        --primary: #2dd4bf; /* Modern Teal */
+        --bg: #0f172a; /* Deep Slate */
+        --glass: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.1);
+      }
 
-        .mainDiv {
-            width: 100%;
-            height: 100vh;
-            position: relative;
-            background: darkgray;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
 
-        .centerDiv {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            /* aie line ta bujte hobe */
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
+      body {
+        background-color: var(--bg);
+        background-image: radial-gradient(
+          circle at 50% 0%,
+          #1e293b 0%,
+          #0f172a 100%
+        );
+        color: white;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
 
-        h1 {
-            text-transform: capitalize;
-            margin-bottom: 30px;
-            color: #ecf0f1;
-            text-shadow: 1px 2px 3px #2980b9;
-            font-size: 2.1rem;
-        }
+      .container {
+        width: 90%;
+        max-width: 900px;
+        padding: 50px;
+        background: var(--glass);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border);
+        border-radius: 30px;
+        text-align: center;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      }
 
-        h2 {
-            text-align: center;
-        }
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        background: linear-gradient(to right, #2dd4bf, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-        textarea {
-            background-color: #444;
-            box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
-            border-radius: 10px 10px 0 0;
-            border: 20px solid #34495e;
-            color: white;
-            font-size: 1.3rem;
-        }
+      #msg {
+        font-size: 1.25rem;
+        color: #94a3b8;
+        margin-bottom: 30px;
+        min-height: 80px;
+        line-height: 1.6;
+      }
 
-        .mainbtn {
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 5px solid #2980b9;
-            background: #ecf0f1;
-            font-size: 1rem;
-        }
+      textarea {
+        width: 100%;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.2);
+        border: 2px solid var(--border);
+        border-radius: 15px;
+        color: white;
+        font-size: 1.2rem;
+        resize: none;
+        transition: all 0.3s ease;
+        outline: none;
+        margin-bottom: 20px;
+      }
+
+      textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 15px rgba(45, 212, 191, 0.1);
+      }
+
+      /* Styling for the results highlight */
+      .stat-highlight {
+        color: var(--primary);
+        font-weight: bold;
+      }
+
+      .mainbtn {
+        padding: 15px 45px;
+        border-radius: 50px;
+        border: none;
+        background: var(--primary);
+        color: #0f172a;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          background 0.3s;
+      }
+
+      .mainbtn:hover {
+        transform: translateY(-3px);
+        background: #22d3ee;
+      }
+
+      .mainbtn:active {
+        transform: translateY(0);
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <div class="mainDiv">
-        <div class="centerDiv">
-            <h1>Welcome To typing Speed Test</h1>
-            <h2 id="msg"></h2>
-            <br>
-            <textarea id="mywords" cols="100" rows="10" placeholder="Rememberm, be nice !"> </textarea>
-            <br>
-            <button id="btn" class="mainbtn">Start</button>
-        </div>
+  <body>
+    <div class="container">
+      <h1>Typing Speed Test</h1>
+      <h2 id="msg">Click Start to begin the challenge!</h2>
+
+      <textarea
+        id="mywords"
+        rows="6"
+        placeholder="Your typing will appear here..."
+        disabled
+      ></textarea>
+      <br />
+      <button id="btn" class="mainbtn">Start</button>
     </div>
+
     <script>
-        const setOfWords = [
-            "My Name is Eshan I am programmar.",
-            "Hope you are having fun this is a simple game you can make.",
-            "If you want the source code then link is given in the description so you can create your own version of this challenge."
-        ];
-        const msg = document.getElementById('msg');
-        const typeWords = document.getElementById('mywords');
-        const btn = document.getElementById('btn');
-        let startTime, endTime;
+      const setOfWords = [
+        "Single Page Application logic involves loading a single HTML page and dynamically updating content.",
+        "JavaScript is a powerful language that allows you to build interactive websites effortlessly.",
+        "Programming is not about what you know but about what you can figure out using logic.",
+        "Clean code is always easier to maintain and scale for large professional projects.",
+      ];
 
-        const playGame = () => {
-            // floor er kaj ki ??
-            let randomNumber = Math.floor(Math.random() * setOfWords.length);
-            // console.log(randomNumber)
-            msg.innerText = setOfWords[randomNumber];
-            let date = new Date();
-            startTime = date.getTime();
-            btn.innerText = "Done";
+      const msg = document.getElementById("msg");
+      const typeWords = document.getElementById("mywords");
+      const btn = document.getElementById("btn");
+      let startTime, endTime;
 
+      const playGame = () => {
+        /* Math.floor: Rounds a number DOWN to the nearest integer.
+               Math.random() * length: Gives a decimal (e.g., 2.7). 
+               Floor makes it 2 so it works as an array index.
+            */
+        let randomNumber = Math.floor(Math.random() * setOfWords.length);
+        msg.innerText = setOfWords[randomNumber];
+
+        typeWords.value = "";
+        typeWords.disabled = false;
+        typeWords.focus(); // Auto-focus so the user can type immediately
+
+        let date = new Date();
+        startTime = date.getTime();
+        btn.innerText = "Done";
+      };
+
+      const endPlay = () => {
+        let date = new Date();
+        endTime = date.getTime();
+        let totalTime = (endTime - startTime) / 1000;
+
+        let typedStr = typeWords.value.trim();
+        let wordCount = wordCounter(typedStr);
+
+        // Calculate Words Per Minute
+        let speed = Math.round((wordCount / totalTime) * 60);
+
+        let results = compareWords(msg.innerText, typedStr);
+
+        msg.innerHTML = `You typed at <span class="stat-highlight">${speed} WPM</span>. <br> 
+                            ${results.cnt} correct words out of ${results.total}. 
+                            Errors: <span style="color: #ef4444">${results.errorWords}</span>.`;
+
+        typeWords.disabled = true;
+        btn.innerText = "Start";
+      };
+
+      const compareWords = (str1, str2) => {
+        let words1 = str1.split(" ");
+        let words2 = str2.split(" ");
+        let cnt = 0;
+
+        words1.forEach(function (item, index) {
+          if (item === words2[index]) {
+            cnt++;
+          }
+        });
+
+        return {
+          cnt: cnt,
+          total: words1.length,
+          errorWords: words1.length - cnt,
+        };
+      };
+
+      const wordCounter = (str) => {
+        /* split: Breaks a string into an array.
+               Using .filter(n => n != "") helps ignore extra spaces.
+            */
+        let response = str.split(" ").filter((word) => word !== "").length;
+        return response;
+      };
+
+      btn.addEventListener("click", function () {
+        if (this.innerText === "Start") {
+          playGame();
+        } else if (this.innerText === "Done") {
+          endPlay();
         }
-
-        const endPlay = () => {
-            let date = new Date();
-            endTime = date.getTime();
-            let totalTime = ((endTime - startTime) / 1000);
-            console.log(totalTime);
-            // total ke total korte hobe
-            let totatStr = typeWords.value;
-            let wordCount = wordCounter(totatStr);
-            let speed = Math.round((wordCount / totalTime) * 60);
-            let finalMsg = " you typed total at " + speed + " Words per minutes ";
-
-            finalMsg += compareWords(msg.innerText, totatStr);
-
-            msg.innerText = finalMsg;
-        }
-        const compareWords = (str1, str2) => {
-            let words1 = str1.split(" ");
-            let words2 = str2.split(" ");
-            let cnt = 0;
-            // arrayName then foreach then it will take whole function with value and index no. of that array
-            words1.forEach(function (item, index) {
-                if (item == words2[index]) {
-                    cnt++;
-                }
-            })
-            let errorWords = (words1.length - cnt);
-            return (cnt + " correct out of " + words1.length + "words and the total number of error are " + errorWords + ".");
-        }
-        const wordCounter = (str) => {
-            // split কী?
-            let response = str.split(" ").length;
-            console.log(response);
-            return response;
-        }
-
-        btn.addEventListener('click', function () {
-            // console.log(this);
-            if (this.innerText == 'Start') {
-                typeWords.disabled = false;
-                playGame();
-            } else if (this.innerText == "Done") {
-                typeWords.disabled = true;
-                btn.innerText = "Start";
-                endPlay();
-            }
-        })
-
+      });
     </script>
-</body>
-
+  </body>
 </html>
